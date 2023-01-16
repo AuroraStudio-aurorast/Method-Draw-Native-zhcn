@@ -1,7 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="48" height="48">
-  <path d="M-.1 16.1L16 .04V16.1H-.1z" fill="#ccc"/>
-  <path d="M0 16.1V.1l16 16H0z" fill="#666"/>
-</svg>
 # 🖌️Method Draw
 
 **ℹ️WIP：软件目前依旧在优化，欢迎大家提交 PR ，帮助我们完善项目。**
