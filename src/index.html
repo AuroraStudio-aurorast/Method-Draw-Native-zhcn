@@ -38,7 +38,26 @@
   <link rel="stylesheet" href="css/sponsors.css" type="text/css"/>
   <link rel="stylesheet" href="css/zoom-dropdown.css" type="text/css"/>
   <link rel="stylesheet" href="css/loading.css" type="text/css"/>
+  <link rel="stylesheet" href="css/titlebar.css" type="text/css"/>
   <!-- endbuild -->
+  <script language="javascript">
+    document.onkeydown = function(e){
+        e = window.event || e;
+        var keycode = e.keyCode || e.which;
+        if( keycode = 116){
+            if(window.event){// ie
+                try{e.keyCode = 0;}catch(e){}
+                e.returnValue = false;
+            }else{// ff
+                e.preventDefault();
+            }
+        }
+    }
+    document.oncontextmenu = function(e){
+             return false;
+    }
+    </script>
+    
 </head>
 <body class="loading">
 
@@ -54,7 +73,7 @@
 </div>
 </div>
 
-<div id="menu_bar">
+<div data-tauri-drag-region class="titlebar" id="menu_bar">
   <a class="menu">
     <div class="menu_title" id="logo">
       <svg viewBox="0 0 16 16" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
@@ -63,106 +82,118 @@
       </svg>
     </div>
     <div class="menu_list inverted-undo">
-      <div id="modal_about" class="menu_item" data-action="about">About this app...</div>
+      <div id="modal_about" class="menu_item" data-action="about">关于该应用...</div>
       <div class="separator"></div>
-      <div id="modal_preferences" class="menu_item" data-action="configure">Configure...</div>
-      <div id="modal_shortcuts" class="menu_item" data-action="shortcuts">Keyboard Shortcuts...</div>
-      <div id="modal_donate" class="menu_item" data-action="donate">Donate or sponsor...</div>
+      <div id="modal_preferences" class="menu_item" data-action="configure">配置...</div>
+      <div id="modal_shortcuts" class="menu_item" data-action="shortcuts">键盘快捷键...</div>
+      <div id="modal_donate" class="menu_item" data-action="donate">捐赠...</div>
     </div>
   </a>
 
   <div class="menu">
-    <div class="menu_title">File</div>
+    <div class="menu_title">文件</div>
     <div class="menu_list inverted-undo" id="file_menu"> 
-      <div data-action="clear" id="tool_clear" class="menu_item">New Document</div>
+      <div data-action="clear" id="tool_clear" class="menu_item">新文件</div>
       
       <div id="tool_open" class="menu_item">
         <input type="file" accept="image/svg+xml" id="tool_open_input" />
-        Open SVG... <span class="shortcut" style="display: none;">⌘O</span>
+        打开SVG... <span class="shortcut" style="display: none;">⌘O</span>
       </div>
       
       <div id="tool_import" class="menu_item">
         <input type="file" accept="image/*"  id="tool_import_input" />
-        Place Image... <span class="shortcut" style="display: none;">⌘K</span>
+        放置图片... <span class="shortcut" style="display: none;">⌘K</span>
       </div>
-      <div data-action="save" id="tool_save" class="menu_item">Save Image... <span class="shortcut">⌘S</span></div>
-      <div data-action="export" id="tool_export" class="menu_item">Export as PNG</div>
+      <div data-action="save" id="tool_save" class="menu_item">保存图像... <span class="shortcut">⌘S</span></div>
+      <div data-action="export" id="tool_export" class="menu_item">导出为PNG</div>
     </div>
   </div>
 
   <div class="menu">
-    <div class="menu_title">Edit</div>
+    <div class="menu_title">编辑</div>
     <div class="menu_list inverted-undo" id="edit_menu">
-      <div data-action="undo" class="menu_item" id="tool_undo">Undo <span class="shortcut">⌘Z</span></div>
-      <div data-action="redo" class="menu_item" id="tool_redo">Redo <span class="shortcut">⌘Y</span></div>
+      <div data-action="undo" class="menu_item" id="tool_undo">撤回 <span class="shortcut">⌘Z</span></div>
+      <div data-action="redo" class="menu_item" id="tool_redo">重做 <span class="shortcut">⌘Y</span></div>
       <div class="separator"></div>
-      <div data-action="cutSelected" class="menu_item action_selected disabled" id="tool_cut">Cut <span class="shortcut">⌘X</span></div>
-      <div data-action="copySelected" class="menu_item action_selected disabled" id="tool_copy">Copy <span class="shortcut">⌘C</span></div>
-      <div data-action="pasteSelected" class="menu_item action_selected disabled" id="tool_paste">Paste <span class="shortcut">⌘V</span></div>
-      <div data-action="duplicateSelected" class="menu_item action_selected disabled" id="tool_clone">Duplicate <span class="shortcut">⌘D</span></div>
-      <div data-action="deleteSelected" class="menu_item action_selected disabled" id="tool_delete">Delete <span>⌫</span></div>
+      <div data-action="cutSelected" class="menu_item action_selected disabled" id="tool_cut">剪切 <span class="shortcut">⌘X</span></div>
+      <div data-action="copySelected" class="menu_item action_selected disabled" id="tool_copy">复制 <span class="shortcut">⌘C</span></div>
+      <div data-action="pasteSelected" class="menu_item action_selected disabled" id="tool_paste">粘贴 <span class="shortcut">⌘V</span></div>
+      <div data-action="duplicateSelected" class="menu_item action_selected disabled" id="tool_clone">重复 <span class="shortcut">⌘D</span></div>
+      <div data-action="deleteSelected" class="menu_item action_selected disabled" id="tool_delete">删除 <span>⌫</span></div>
     </div>
   </div>
   
   <div class="menu">
-    <div class="menu_title">Object</div>
+    <div class="menu_title">对象</div>
     <div class="menu_list inverted-undo" id="object_menu">
-      <div class="menu_item action_selected disabled" id="tool_move_top">Bring to Front <span class="shortcut">⌘⇧↑</span></div>
-      <div class="menu_item action_selected disabled" id="tool_move_up">Bring Forward <span class="shortcut">⌘↑</span></div>
-      <div class="menu_item action_selected disabled" id="tool_move_down">Send Backward <span class="shortcut">⌘↓</span></div>
-      <div class="menu_item action_selected disabled" id="tool_move_bottom">Send to Back <span class="shortcut">⌘⇧↓</span></div>
+      <div class="menu_item action_selected disabled" id="tool_move_top">置于顶层 <span class="shortcut">⌘⇧↑</span></div>
+      <div class="menu_item action_selected disabled" id="tool_move_up">上移一层 <span class="shortcut">⌘↑</span></div>
+      <div class="menu_item action_selected disabled" id="tool_move_down">下移一行 <span class="shortcut">⌘↓</span></div>
+      <div class="menu_item action_selected disabled" id="tool_move_bottom">置于底层 <span class="shortcut">⌘⇧↓</span></div>
       <div class="separator"></div>
-      <div class="menu_item action_multi_selected disabled" id="tool_group">Group Elements <span class="shortcut">⌘G</span></div>
-      <div class="menu_item action_group_selected disabled" id="tool_ungroup">Ungroup Elements <span class="shortcut">⌘⇧G</span></div>
+      <div class="menu_item action_multi_selected disabled" id="tool_group">组合元素 <span class="shortcut">⌘G</span></div>
+      <div class="menu_item action_group_selected disabled" id="tool_ungroup">取消组合元素 <span class="shortcut">⌘⇧G</span></div>
       <div class="separator"></div>
-      <div class="menu_item action_path_convert_selected disabled" id="tool_topath">Convert to Path</div>
-      <div class="menu_item action_path_selected disabled" id="tool_reorient">Reorient path</div>
+      <div class="menu_item action_path_convert_selected disabled" id="tool_topath">转换为路径</div>
+      <div class="menu_item action_path_selected disabled" id="tool_reorient">调整路径</div>
     </div>
   </div>
 
   <div class="menu">
-    <div class="menu_title">View</div>
+    <div class="menu_title">视图</div>
     <div class="menu_list inverted-undo" id="view_menu">
-        <div class="menu_item push_button_pressed" id="tool_rulers">View Rulers <span class="shortcut">⇧R</span></div>
-        <div class="menu_item" id="tool_wireframe">View Wireframe</div>
+        <div class="menu_item push_button_pressed" id="tool_rulers">显示标尺 <span class="shortcut">⇧R</span></div>
+        <div class="menu_item" id="tool_wireframe">显示网格</div>
         <div class="separator"></div>
-        <div class="menu_item" id="tool_source" data-action="source">Source... <span class="shortcut">⌘U</span></div>
+        <div class="menu_item" id="tool_source" data-action="source">源码... <span class="shortcut">⌘U</span></div>
     </div>
   </div>
   <div class="menu-right">
-  <button class="menu-icon" id="darkmode-button">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M17.66 7.93L12 2.27 6.34 7.93c-3.12 3.12-3.12 8.19 0 11.31C7.9 20.8 9.95 21.58 12 21.58c2.05 0 4.1-.78 5.66-2.34 3.12-3.12 3.12-8.19 0-11.31zM12 19.59c-1.6 0-3.11-.62-4.24-1.76C6.62 16.69 6 15.19 6 13.59s.62-3.11 1.76-4.24L12 5.1v14.49z"></path></svg>
-  </button>
-</div>
+    <div>
+      <button class="menu-icon" id="darkmode-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M17.66 7.93L12 2.27 6.34 7.93c-3.12 3.12-3.12 8.19 0 11.31C7.9 20.8 9.95 21.58 12 21.58c2.05 0 4.1-.78 5.66-2.34 3.12-3.12 3.12-8.19 0-11.31zM12 19.59c-1.6 0-3.11-.62-4.24-1.76C6.62 16.69 6 15.19 6 13.59s.62-3.11 1.76-4.24L12 5.1v14.49z"></path></svg>
+      </button>
+      <div class="titlebar-button" onclick="window.__TAURI__.window.appWindow.minimize()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2668" data-darkreader-inline-fill="" width="200" height="200"><path d="M923 571H130.7c-27.6 0-50-22.4-50-50s22.4-50 50-50H923c27.6 0 50 22.4 50 50s-22.4 50-50 50z" fill="" p-id="2669"></path></svg>
+      </div>
+      <div class="titlebar-button" onclick="window.__TAURI__.window.appWindow.toggleMaximize()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4253" data-darkreader-inline-fill="" width="200" height="200"><path d="M770.9 923.3H253.1c-83.8 0-151.9-68.2-151.9-151.9V253.6c0-83.8 68.2-151.9 151.9-151.9h517.8c83.8 0 151.9 68.2 151.9 151.9v517.8c0 83.8-68.1 151.9-151.9 151.9zM253.1 181.7c-39.7 0-71.9 32.3-71.9 71.9v517.8c0 39.7 32.3 71.9 71.9 71.9h517.8c39.7 0 71.9-32.3 71.9-71.9V253.6c0-39.7-32.3-71.9-71.9-71.9H253.1z"></path></svg>
+      </div>
+      <div class="titlebar-button" onclick="window.__TAURI__.window.appWindow.close()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" data-darkreader-inline-fill="" width="200" height="200"><path d="M512 466.944l233.472-233.472a31.744 31.744 0 0 1 45.056 45.056L557.056 512l233.472 233.472a31.744 31.744 0 0 1-45.056 45.056L512 557.056l-233.472 233.472a31.744 31.744 0 0 1-45.056-45.056L466.944 512 233.472 278.528a31.744 31.744 0 0 1 45.056-45.056z"></path></svg>
+      </div>
+      </div>
+  </div>
+  </div>
 </div>
 
 <div id="panels" class="tools_panel">
 
   <div id="canvas_panel" class="context_panel">
     
-    <h4>Canvas</h4>
+    <h4>画布</h4>
 
     <div class="draginputs">
 
 
-      <label class="draginput twocol textcontent" data-title="Change Content">
+      <label class="draginput twocol textcontent" data-title="改变内容">
         <input id="canvas_title" type="text" />
-        <span>Title</span>
+        <span>标题</span>
       </label>
 
 
-      <label data-title="Change canvas width" class="draginput">
+      <label data-title="改变画布宽度" class="draginput">
         <input id="canvas_width" type="text" pattern="[0-9]*" value="800" />
-        <span class="icon_label">Width</span>
+        <span class="icon_label">宽度</span>
       </label>
 
-      <label data-title="Change canvas height" class="draginput">
+      <label data-title="改变画布高度" class="draginput">
         <input id="canvas_height" type="text" pattern="[0-9]*" value="600" />
-        <span class="icon_label">Height</span>
+        <span class="icon_label">高度</span>
       </label>
       
-      <label data-title="Change canvas color" class="draginput">
-        <span>Color</span>
+      <label data-title="改变画布颜色" class="draginput">
+        <span>颜色</span>
         <div id="color_canvas_tools">
           <div class="color_tool active" id="tool_canvas">
             <div class="color_block">
@@ -174,31 +205,31 @@
       </label>
 
       <div class="draginput">
-        <span>Sizes</span>
+        <span>大小</span>
         <select id="resolution">
 
-          <option id="selectedPredefined" selected="selected">Custom</option>
-          <option id="fitToContent" value="content">Fit to Content</option>
+          <option id="selectedPredefined" selected="selected">自定义</option>
+          <option id="fitToContent" value="content">与内容相适应</option>
 
-          <optgroup label="Social Media">
-            <option value="1012x506">Twitter Post (1012 × 506)</option>
-            <option value="1500x500">Twitter Header (1500 × 500)</option>
-            <option value="1200x630">Facebook Post (1200 × 630)</option>
-            <option value="820x312">Facebook Cover (820 × 312)</option>
-            <option value="1080x1080">Instagram Post (1080 × 1080)</option>
-            <option value="1080x1920">Instagram Story (1080 × 1920)</option>
-            <option value="300">Dribble Shot (400 × 300)</option>
-            <option value="800x600">Dribble Shot HD (800 × 600)</option>
-            <option value="1584x396">LinkedIn Cover (1584 × 396)</option>
+          <optgroup label="社交媒体">
+            <option value="1012x506">推特文章 (1012 × 506)</option>
+            <option value="1500x500">推特头图 (1500 × 500)</option>
+            <option value="1200x630">脸书文章 (1200 × 630)</option>
+            <option value="820x312">脸书封面 (820 × 312)</option>
+            <option value="1080x1080">Instagram 文章 (1080 × 1080)</option>
+            <option value="1080x1920">Instagram 故事 (1080 × 1920)</option>
+            <option value="300">Dribble 相片 (400 × 300)</option>
+            <option value="800x600">Dribble 相片 HD (800 × 600)</option>
+            <option value="1584x396">领英封面 (1584 × 396)</option>
           </optgroup>
 
-          <optgroup label="Presentation">
+          <optgroup label="演示文稿">
             <option value="1920x1080">16:9 (1920 × 1080)</option>
             <option value="1024x768">4:3 (1024 × 768)</option>
           </optgroup>
           
-          <optgroup label="Desktop">
-            <option value="1140x1024">Desktop (1140 × 1024)</option>
+          <optgroup label="桌面">
+            <option value="1140x1024">桌面 (1140 × 1024)</option>
             <option value="375x700">MacBook (834 × 1194)</option>
             <option value="1440x900">MacBook Pro (1024 × 1366)</option>
             <option value="1500x1000">Surface Book (1440 × 990)</option>
@@ -206,7 +237,7 @@
           </optgroup>
 
 
-          <optgroup label="Tablet">
+          <optgroup label="平板">
             <option value="414x896">iPad Mini (768 × 1024)</option>
             <option value="375x812">iPad Pro 11" (834 × 1194)</option>
             <option value="375x812">iPad Pro 12.9" (1024 × 1366)</option>
@@ -214,185 +245,185 @@
             <option value="414x736">Surface Pro 4 (1368 × 912)</option>
           </optgroup>
 
-          <optgroup label="Phone">
+          <optgroup label="手机">
             <option value="414x896">iPhone 11 ProMax (414 × 896)</option>
             <option value="375x812">iPhone 11 Pro / X (375 × 812)</option>
             <option value="414x736">iPhone 8 Plus (414 × 736)</option>
             <option value="375x667">iPhone 8 (375 × 667)</option>
-            <option value="411x731">Google Pixel 2 (411 × 731)</option>
-            <option value="411x823">Google Pixel XL (411 × 823)</option>
-            <option value="360x640">Android (360 × 640)</option>
+            <option value="411x731">谷歌 Pixel 2 (411 × 731)</option>
+            <option value="411x823">谷歌 Pixel XL (411 × 823)</option>
+            <option value="360x640">安卓 (360 × 640)</option>
           </optgroup>
           
-          <optgroup label="Paper">
-            <option value="595x842">A4 (595 × 842)</option>
-            <option value="420x595">A5 (420 × 595)</option>
-            <option value="297x420">A6 (297 × 420)</option>
-            <option value="612x792">Letter (612 × 792) </option>
-            <option value="792x1224">Tabloid (792 × 1224)</option>
+          <optgroup label="纸张">
+            <option value="595x842">A4纸 (595 × 842)</option>
+            <option value="420x595">A5纸 (420 × 595)</option>
+            <option value="297x420">A6纸 (297 × 420)</option>
+            <option value="612x792">信封 (612 × 792) </option>
+            <option value="792x1224">小报 (792 × 1224)</option>
             
           </optgroup>
         </select>
         <div class="caret"></div>
-        <label id="resolution_label">Custom</label>
+        <label id="resolution_label">自定义</label>
       </div>
 
     </div>
   </div>
   
   <div id="rect_panel" class="context_panel">
-    <h4>Rectangle</h4>
+    <h4>矩形</h4>
     <div class="draginputs">
       <label class="draginput">
-        <input id="rect_x" class="attr_changer" data-title="Change X coordinate" data-attr="x" pattern="[0-9]*" />
+        <input id="rect_x" class="attr_changer" data-title="改变X坐标" data-attr="x" pattern="[0-9]*" />
         <span>X</span> 
       </label>
       <label class="draginput">
-        <input id="rect_y" class="attr_changer" data-title="Change Y coordinate" data-attr="y" pattern="[0-9]*" />
+        <input id="rect_y" class="attr_changer" data-title="改变Y坐标" data-attr="y" pattern="[0-9]*" />
         <span>Y</span> 
       </label>
-      <label  class="draginput" id="rect_width_tool attr_changer" data-title="Change rectangle width">
+      <label  class="draginput" id="rect_width_tool attr_changer" data-title="改变矩形的宽度">
         <input id="rect_width" class="attr_changer" data-attr="width" type="text" pattern="[0-9]*" />
-        <span class="icon_label">Width</span>
+        <span class="icon_label">宽度</span>
       </label>
-      <label  class="draginput" id="rect_height_tool" data-title="Change rectangle height">
+      <label  class="draginput" id="rect_height_tool" data-title="改变矩形的高度">
         <input id="rect_height" class="attr_changer" data-attr="height" type="text" pattern="[0-9]*" />
-        <span class="icon_label">Height</span>
+        <span class="icon_label">高度</span>
       </label>
     </div>
   </div>
   
   <div id="path_panel" class="context_panel clearfix">
-      <h4>Path</h4>
+      <h4>路径</h4>
       <div class="draginputs">
         <label>
-          <input id="path_x" class="attr_changer" data-title="Change ellipse's cx coordinate" data-attr="x" pattern="[0-9]*" />
+          <input id="path_x" class="attr_changer" data-title="改变路径的X坐标" data-attr="x" pattern="[0-9]*" />
           <span>X</span>
         </label>
         <label>
-          <input id="path_y" class="attr_changer" data-title="Change ellipse's cy coordinate" data-attr="y" pattern="[0-9]*" />
+          <input id="path_y" class="attr_changer" data-title="改变路径的Y坐标" data-attr="y" pattern="[0-9]*" />
           <span>Y</span>
         </label>
     </div>
   </div>
 
   <div id="image_panel" class="context_panel clearfix">
-  <h4>Image</h4>
+  <h4>图像</h4>
     <div class="draginputs">
       <label class="draginput">
-        <input id="image_x" class="attr_changer" data-title="Change X coordinate" data-attr="x"  pattern="[0-9]*"/>
+        <input id="image_x" class="attr_changer" data-title="改变X坐标" data-attr="x"  pattern="[0-9]*"/>
         <span>X</span> 
       </label>
       <label class="draginput">
-        <input id="image_y" class="attr_changer" data-title="Change Y coordinate" data-attr="y"  pattern="[0-9]*"/>
+        <input id="image_y" class="attr_changer" data-title="改变Y坐标" data-attr="y"  pattern="[0-9]*"/>
         <span>Y</span> 
       </label>
       <label class="draginput">
-        <input id="image_width" class="attr_changer" data-title="Change image width" data-attr="width" pattern="[0-9]*" />
-        <span class="icon_label">Width</span>
+        <input id="image_width" class="attr_changer" data-title="改变图像宽度" data-attr="width" pattern="[0-9]*" />
+        <span class="icon_label">宽度</span>
       </label>
       <label class="draginput">
-        <input id="image_height" class="attr_changer" data-title="Change image height" data-attr="height" pattern="[0-9]*" />
-        <span class="icon_label">Height</span>
+        <input id="image_height" class="attr_changer" data-title="改变图像高度" data-attr="height" pattern="[0-9]*" />
+        <span class="icon_label">高度</span>
       </label>
     </div>
   </div>
   
   <div id="circle_panel" class="context_panel">
-    <h4>Circle</h4>
+    <h4>正圆</h4>
     <div class="draginputs">
       <label id="tool_circle_cx" class="draginput">
-        <span>Center X</span>
-        <input id="circle_cx" class="attr_changer" title="Change circle's cx coordinate" data-attr="cx"/>
+        <span>圆心的X</span>
+        <input id="circle_cx" class="attr_changer" title="改变圆的X坐标" data-attr="cx"/>
       </label>
       <label id="tool_circle_cy" class="draginput">
-        <span>Center Y</span>
-        <input id="circle_cy" class="attr_changer" title="Change circle's cy coordinate" data-attr="cy"/>
+        <span>圆心的Y</span>
+        <input id="circle_cy" class="attr_changer" title="改变圆的Y坐标" data-attr="cy"/>
       </label>
       <label id="tool_circle_r" class="draginput">
-        <span>Radius</span>
-        <input id="circle_r" class="attr_changer" title="Change circle's radius" data-attr="r"/>
+        <span>半径</span>
+        <input id="circle_r" class="attr_changer" title="改变圆的半径" data-attr="r"/>
       </label>
     </div>
   </div>
 
   <div id="ellipse_panel" class="context_panel">
-      <h4>Ellipse</h4>
+      <h4>椭圆</h4>
       <div class="draginputs">
       <label id="tool_ellipse_cx">
-        <input id="ellipse_cx" class="attr_changer" data-title="Change ellipse's cx coordinate" data-attr="cx" pattern="[0-9]*" />
+        <input id="ellipse_cx" class="attr_changer" data-title="改变椭圆的X坐标" data-attr="cx" pattern="[0-9]*" />
         <span>X</span>
       </label>
       <label id="tool_ellipse_cy">
-        <input id="ellipse_cy" class="attr_changer" data-title="Change ellipse's cy coordinate" data-attr="cy" pattern="[0-9]*" />
+        <input id="ellipse_cy" class="attr_changer" data-title="改变椭圆的Y坐标" data-attr="cy" pattern="[0-9]*" />
         <span>Y</span>
       </label>
       <label id="tool_ellipse_rx">
-        <input id="ellipse_rx" class="attr_changer" data-title="Change ellipse's x radius" data-attr="rx" pattern="[0-9]*" />
-        <span>Radius X</span>
+        <input id="ellipse_rx" class="attr_changer" data-title="改变椭圆的X半径" data-attr="rx" pattern="[0-9]*" />
+        <span>半斤X</span>
       </label>
       <label id="tool_ellipse_ry">
-        <input id="ellipse_ry" class="attr_changer" data-title="Change ellipse's y radius" data-attr="ry" pattern="[0-9]*" />
-        <span>Radius Y</span>
+        <input id="ellipse_ry" class="attr_changer" data-title="改变椭圆的Y半径" data-attr="ry" pattern="[0-9]*" />
+        <span>半径Y</span>
       </label>
     </div>
   </div>
 
   <div id="line_panel" class="context_panel clearfix">
-    <h4>Line</h4>
+    <h4>线条</h4>
     <div class="draginputs">
       <label id="tool_line_x1">
-        <input id="line_x1" class="attr_changer" data-title="Change line's starting x coordinate" data-attr="x1" pattern="[0-9]*" />
-        <span>Start X</span>
+        <input id="line_x1" class="attr_changer" data-title="改变线的起始X坐标" data-attr="x1" pattern="[0-9]*" />
+        <span>起始的X</span>
       </label>
       <label id="tool_line_y1">
-        <input id="line_y1" class="attr_changer" data-title="Change line's starting y coordinate" data-attr="y1" pattern="[0-9]*" />
-        <span>Start Y</span>
+        <input id="line_y1" class="attr_changer" data-title="改变线的起始Y坐标" data-attr="y1" pattern="[0-9]*" />
+        <span>起始的Y</span>
       </label>
       <label id="tool_line_x2">
-        <input id="line_x2" class="attr_changer" data-title="Change line's ending x coordinate" data-attr="x2"   pattern="[0-9]*" />
-        <span>End X</span>
+        <input id="line_x2" class="attr_changer" data-title="改变线的末端Y坐标" data-attr="x2"   pattern="[0-9]*" />
+        <span>末端的X</span>
       </label>
       <label id="tool_line_y2">
-        <input id="line_y2" class="attr_changer" data-title="Change line's ending y coordinate" data-attr="y2"   pattern="[0-9]*" />
-        <span>End Y</span>
+        <input id="line_y2" class="attr_changer" data-title="改变线的末端Y坐标" data-attr="y2"   pattern="[0-9]*" />
+        <span>末端的Y</span>
       </label>
     </div>
   </div>
 
   <div id="text_panel" class="context_panel">
 
-    <h4>Text</h4>
+    <h4>文本</h4>
     <div class="draginputs">
-      <label class="draginput twocol textcontent hidden" data-title="Change Content">
+      <label class="draginput twocol textcontent hidden" data-title="改变内容">
         <input id="text" type="text" autocomplete="off"/>
-        <span>Content</span>
+        <span>内容</span>
       </label>
       <label>
-        <input id="text_x" class="attr_changer" data-title="Change text x coordinate" data-attr="x" pattern="[0-9]*" />
+        <input id="text_x" class="attr_changer" data-title="改变文本的X坐标" data-attr="x" pattern="[0-9]*" />
         <span>X</span>
       </label>
       <label>
-        <input id="text_y" class="attr_changer" data-title="Change text y coordinate" data-attr="y" pattern="[0-9]*" />
+        <input id="text_y" class="attr_changer" data-title="改变文本的Y坐标" data-attr="y" pattern="[0-9]*" />
         <span>Y</span>
       </label>
       <div class="toolset draginput twocol" id="tool_font_family">
           <!-- Font family -->
-        <span>Font</span>
+        <span>字体</span>
         <div id="preview_font" style="font-family: sans-serif">sans-serif</div>
         <div class="caret"></div>
-        <input id="font_family" data-title="Change Font Family" size="12" type="hidden" />
+        <input id="font_family" data-title="改变字体家族" size="12" type="hidden" />
         <select id="font_family_dropdown">
         </select>
       </div>
       <div class="draginput font_style">
-          <span>Font Style</span>
-          <div id="tool_bold" data-title="Bold Text [B]">B</div>
-          <div id="tool_italic" data-title="Italic Text [I]">i</div>
+          <span>字体风格</span>
+          <div id="tool_bold" data-title="粗体 [B]">B</div>
+          <div id="tool_italic" data-title="斜体 [I]">i</div>
         </div>
-      <label id="tool_font_size" data-title="Change Font Size">
+      <label id="tool_font_size" data-title="改变字体大小">
         <input id="font_size" value="0" />
-        <span id="font_sizeLabel" class="icon_label">Font Size</span>
+        <span id="font_sizeLabel" class="icon_label">字体大小</span>
       </label>
     </div>
   </div>
@@ -403,12 +434,12 @@
   </div>
   
   <div id="use_panel" class="context_panel clearfix">
-    <h4>Use</h4>
-    <div class="button full" id="tool_unlink_use" data-title="Break link">Break use ref</div>
+    <h4>使用</h4>
+    <div class="button full" id="tool_unlink_use" data-title="Break link">使用参考</div>
   </div>
   
   <div id="g_panel" class="context_panel clearfix">
-    <h4>Group</h4>
+    <h4>组合</h4>
     <div class="draginputs">
       <label>
         <input id="g_x" class="attr_changer" data-title="Change groups's x coordinate" data-attr="x" pattern="[0-9]*" />
@@ -419,100 +450,100 @@
         <span>Y</span>
       </label>
     </div>
-    <div class="button full" title="Ungroup Elements" id="button_ungroup">Ungroup</div>
+    <div class="button full" title="Ungroup Elements" id="button_ungroup">取消组合</div>
   </div>
   
   <div id="path_node_panel" class="context_panel clearfix">
-    <h4>Edit Path</h4>
+    <h4>编辑路径</h4>
 
     <div class="draginputs">
       <label id="tool_node_x">
-        <input id="path_node_x" class="attr_changer" data-title="Change node's x coordinate" data-attr="x" />
+        <input id="path_node_x" class="attr_changer" data-title="改变节点的X坐标" data-attr="x" />
         <span>X</span>
       </label>
       <label id="tool_node_y">
-        <input id="path_node_y" class="attr_changer" data-title="Change node's y coordinate" data-attr="y" />
+        <input id="path_node_y" class="attr_changer" data-title="改变节点的Y坐标" data-attr="y" />
         <span>Y</span>
       </label>
       
       <div id="segment_type" class="draginput label">
-        <span>Seg Type</span>
+        <span>分段类型</span>
         <select id="seg_type" data-title="Change Segment type">
-          <option id="straight_segments" selected="selected" value="4">Straight</option>
-          <option id="curve_segments" value="6">Curve</option>
+          <option id="straight_segments" selected="selected" value="4">直线</option>
+          <option id="curve_segments" value="6">曲线</option>
         </select>
         <div class="caret"></div>
-        <label id="seg_type_label">Straight</label>
+        <label id="seg_type_label">直线</label>
       </div>
 
     </div>
     
     <div class="button-container clearfix">
-      <div class="button full" id="tool_node_clone" title="Adds a node">Add Node</div>
-      <div class="button full" id="tool_node_delete" title="Delete Node">Delete Node</div>
-      <div class="button full" id="tool_openclose_path" title="Open/close sub-path">Open/close Path</div>
+      <div class="button full" id="tool_node_clone" title="Adds a node">添加节点</div>
+      <div class="button full" id="tool_node_delete" title="Delete Node">删除节点</div>
+      <div class="button full" id="tool_openclose_path" title="Open/close sub-path">打开/关闭路径</div>
     </div>
   </div>
   
   <!-- Buttons when a single element is selected -->
   <div id="selected_panel" class="context_panel">
     <div class="draginputs">
-      <label id="tool_angle" data-title="Change rotation angle" class="draginput">
+      <label id="tool_angle" data-title="改变旋转角度" class="draginput">
         <input id="angle" class="attr_changer" size="2" value="0" data-attr="transform" data-min="-180" data-max="180" type="text"/>
-        <span class="icon_label">Rotation</span>
+        <span class="icon_label">旋转</span>
         <div id="tool_angle_indicator" class="angle">
           <div id="tool_angle_indicator_cursor" class="angle-cursor"></div>
         </div>
       </label>
       
-      <label id="tool_opacity" data-title="Change selected item opacity">
+      <label id="tool_opacity" data-title="改变选定项目的不透明度">
         <input id="group_opacity" class="attr_changer" data-attr="opacity" value="100" step="5" min="0" max="100" />
-        <span id="group_opacityLabel" class="icon_label">Opacity</span>
+        <span id="group_opacityLabel" class="icon_label">不透明度</span>
       </label>
       
-      <label id="tool_blur" data-title="Change gaussian blur value">
+      <label id="tool_blur" data-title="改变高斯模糊值">
           <input id="blur" size="2" value="0" step=".1"  min="0" max="10" />
-          <span class="icon_label">Blur</span>
+          <span class="icon_label">模糊</span>
       </label>
       
-      <label id="cornerRadiusLabel" data-title="Change Rectangle Corner Radius">
+      <label id="cornerRadiusLabel" data-title="改变矩形圆角半径">
         <input id="rect_rx" value="0" data-attr="rx" class="attr_changer" type="text" pattern="[0-9]*" />
-        <span class="icon_label">Roundness</span>
+        <span class="icon_label">圆角度数</span>
       </label>
 
     </div>
     
     <div id="align_tools">
-      <h4>Align to canvas</h4>
+      <h4>对齐画布</h4>
       <div class="toolset align_buttons" id="tool_position">
           <label>
             <div class="col last clear" id="position_opts">
-              <div class="align_button" id="tool_posleft" title="Align Left" data-align="left">
+              <div class="align_button" id="tool_posleft" title="向左对齐" data-align="left">
                 <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
                   <path d="M 2 1 L 2 5 L 14 5 L 14 11 L 2 11 L 2 16 L 20 16 L 20 22 L 2 22 L 2 26 L 1 26 L 1 1 L 2 1 Z" />
                 </svg>
               </div>
-              <div class="align_button" id="tool_poscenter" title="Align Center" data-align="center">
+              <div class="align_button" id="tool_poscenter" title="对齐中心" data-align="center">
                 <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
                   <path d="M 13 1 L 14 1 L 14 6 L 22 6 L 22 12 L 14 12 L 14 15 L 19 15 L 19 21 L 14 21 L 14 26 L 13 26 L 13 21 L 8 21 L 8 15 L 13 15 L 13 12 L 5 12 L 5 6 L 13 6 L 13 1 Z" />
                 </svg>
               </div>
-              <div class="align_button" id="tool_posright" title="Align Right" data-align="right">
+              <div class="align_button" id="tool_posright" title="向右对齐" data-align="right">
                   <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
                     <path d="M 25 1 L 25 5 L 13 5 L 13 11 L 25 11 L 25 16 L 7 16 L 7 22 L 25 22 L 25 26 L 26 26 L 26 1 L 25 1 Z"/>
                   </svg>
               </div>
-              <div class="align_button" id="tool_postop" title="Align Top" data-align="top">
+              <div class="align_button" id="tool_postop" title="对齐顶部" data-align="top">
                   <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
                     <path d="M 1 2 L 5 2 L 5 14 L 11 14 L 11 2 L 16 2 L 16 20 L 22 20 L 22 2 L 26 2 L 26 1 L 1 1 L 1 2 Z"/>
                   </svg>
               </div>
-              <div class="align_button" id="tool_posmiddle" title="Align Middle" data-align="middle">
+              <div class="align_button" id="tool_posmiddle" title="对齐中间" data-align="middle">
                 <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
                   <path d="M 26 13 L 26 14 L 21 14 L 21 22 L 15 22 L 15 14 L 12 14 L 12 19 L 6 19 L 6 14 L 1 14 L 1 13 L 6 13 L 6 8 L 12 8 L 12 13 L 15 13 L 15 5 L 21 5 L 21 13 L 26 13 Z"/>
                 </svg>
               </div>
-              <div class="align_button" id="tool_posbottom" title="Align Bottom" data-align="bottom">
+              <div class="align_button" id="tool_posbottom" title="对齐底部" data-align="bottom">
                 <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
                   <path d="M 1 25 L 5 25 L 5 13 L 11 13 L 11 25 L 16 25 L 16 7 L 22 7 L 22 25 L 26 25 L 26 26 L 1 26 L 1 25"/>
                 </svg>
@@ -526,44 +557,44 @@
   
   <!-- Buttons when multiple elements are selected -->
   <div id="multiselected_panel" class="context_panel clearfix">
-    <h4 class="hidable">Multiple Elements</h4>
+    <h4 class="hidable">多重元素</h4>
     
     <div class="toolset align_buttons">
       <label id="tool_align_relative">
         <div class="select-input">
-          <select id="align_relative_to" title="Align relative to ..." class="select_tool">
-          <option id="selected_objects" value="selected">Align to objects</option>
-          <option id="page" value="page">Align to page</option>
+          <select id="align_relative_to" title="相对于......对齐" class="select_tool">
+          <option id="selected_objects" value="selected">对齐对象</option>
+          <option id="page" value="page">对齐页面</option>
           </select>
         </div>
       </label>
       <div class="col last clear">
-          <div class="align_button" id="tool_alignleft" title="Align Left" data-align="left">
+          <div class="align_button" id="tool_alignleft" title="向左对齐" data-align="left">
             <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
               <path d="M 2 1 L 2 5 L 14 5 L 14 11 L 2 11 L 2 16 L 20 16 L 20 22 L 2 22 L 2 26 L 1 26 L 1 1 L 2 1 Z" />
             </svg>
           </div>
-          <div class="align_button" id="tool_aligncenter" title="Align Center" data-align="center">
+          <div class="align_button" id="tool_aligncenter" title="对齐中心" data-align="center">
             <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
               <path d="M 13 1 L 14 1 L 14 6 L 22 6 L 22 12 L 14 12 L 14 15 L 19 15 L 19 21 L 14 21 L 14 26 L 13 26 L 13 21 L 8 21 L 8 15 L 13 15 L 13 12 L 5 12 L 5 6 L 13 6 L 13 1 Z" />
             </svg>
           </div>
-          <div class="align_button" id="tool_alignright" title="Align Right" data-align="right">
+          <div class="align_button" id="tool_alignright" title="向右对齐" data-align="right">
             <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
               <path d="M 25 1 L 25 5 L 13 5 L 13 11 L 25 11 L 25 16 L 7 16 L 7 22 L 25 22 L 25 26 L 26 26 L 26 1 L 25 1 Z"/>
             </svg>
           </div>
-          <div class="align_button" id="tool_aligntop" title="Align Top"  data-align="top">
+          <div class="align_button" id="tool_aligntop" title="对齐顶部"  data-align="top">
             <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
               <path d="M 1 2 L 5 2 L 5 14 L 11 14 L 11 2 L 16 2 L 16 20 L 22 20 L 22 2 L 26 2 L 26 1 L 1 1 L 1 2 Z"/>
             </svg>
           </div>
-          <div class="align_button" id="tool_alignmiddle" title="Align Middle" data-align="middle">
+          <div class="align_button" id="tool_alignmiddle" title="对齐中间" data-align="middle">
             <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
               <path d="M 26 13 L 26 14 L 21 14 L 21 22 L 15 22 L 15 14 L 12 14 L 12 19 L 6 19 L 6 14 L 1 14 L 1 13 L 6 13 L 6 8 L 12 8 L 12 13 L 15 13 L 15 5 L 21 5 L 21 13 L 26 13 Z"/>
             </svg>
           </div>
-          <div class="align_button" id="tool_alignbottom" title="Align Bottom"  data-align="bottom">
+          <div class="align_button" id="tool_alignbottom" title="对齐底部"  data-align="bottom">
             <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="27" height="27">
               <path d="M 1 25 L 5 25 L 5 13 L 11 13 L 11 25 L 16 25 L 16 7 L 22 7 L 22 25 L 26 25 L 26 26 L 1 26 L 1 25"/>
             </svg>
@@ -571,21 +602,21 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="button full" id="button_group">Group Elements</div>
-    <div class="button full" id="tool_text_on_path" title="Place text on path">Place text on path</div>
+    <div class="button full" id="button_group">组合元素</div>
+    <div class="button full" id="tool_text_on_path" title="在路径上放置文本">在路径上放置文本</div>
 
   </div>
   
   <div id="stroke_panel" class="context_panel">
-    <h4>Stroke</h4>
+    <h4>画笔</h4>
     <div class="draginputs">
-      <label class="draginput" data-title="Change stroke">
+      <label class="draginput" data-title="改变画笔">
         <input id="stroke_width" size="2" value="1" data-attr="stroke-width" min="0" max="99" step="1" />
-        <span class="icon_label">Width</span>
+        <span class="icon_label">宽度</span>
       </label>
       <div class="stroke_tool draginput"> 
-        <span>Dash</span>
-        <select id="stroke_style" data-title="Change stroke dash style">
+        <span>线条</span>
+        <select id="stroke_style" data-title="改变线条样式">
           <option selected="selected" value="none">—</option>
           <option value="2,2">···</option>
           <option value="5,5">- -</option>
@@ -597,11 +628,11 @@
       </div>
       
       <label style="display: none;">
-        <span class="icon_label">Stroke Join</span>
+        <span class="icon_label">画笔加入</span>
       </label>
       
       <label  style="display: none;">
-        <span class="icon_label">Stroke Cap</span>
+        <span class="icon_label">画笔盖</span>
       </label>
 
     </div>
@@ -613,31 +644,31 @@
   </div>
 
 <div id="tools_left" class="tools_panel">
-  <div class="tool_button" id="tool_select" data-mode="select" title="Select Tool [V]">
+  <div class="tool_button" id="tool_select" data-mode="select" title=选择工具 [V]">
     <svg viewBox="0 0 24 24" width="24" height="24">
       <path d="M17.15 20.76l-2.94 1.5-3.68-6-4.41 3V1.24l12.5 12.01-4.41 1.5 2.94 6z"/>
     </svg>
   </div>
-  <div class="tool_button" id="tool_fhpath" data-mode="fhpath" title="Pencil Tool [P]">
+  <div class="tool_button" id="tool_fhpath" data-mode="fhpath" title="铅笔工具 [P]">
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" style="transform: scale(-1,1)"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" /></svg>
   </div>
-  <div class="tool_button" id="tool_line" data-mode="line" title="Line Tool [L]">
+  <div class="tool_button" id="tool_line" data-mode="line" title="线条工具 [L]">
     <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="24" height="24" >
       <path d="M 3 1 L 26 24 L 24 26 L 1 3 L 3 1 Z"></path>
     </svg>
   </div>
-  <div class="tool_button" id="tool_rect" data-mode="rect" title="Square/Rect Tool [R]">
+  <div class="tool_button" id="tool_rect" data-mode="rect" title="方形/菱形工具 [R]">
     <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
       <path d="M 0 8 L 0 24 L 24 24 L 25 8 L 0 8 Z"/>
     </svg>
   </div>
-  <div class="tool_button" id="tool_ellipse" data-mode="ellipse" title="Ellipse/Circle Tool [C]">
+  <div class="tool_button" id="tool_ellipse" data-mode="ellipse" title="椭圆/正圆工具 [C]">
     <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
       <ellipse cx="13" cy="13" rx="13" ry="9"></ellipse>
     </svg>
   </div>
 
-  <div class="tool_button" id="tool_shapelib" data-mode="shapelib" title="Shape Tool [s]" >
+  <div class="tool_button" id="tool_shapelib" data-mode="shapelib" title="形状工具 [S]" >
     <svg xmlns="http://www.w3.org/2000/svg" height="27" width="27" viewBox="0 0 24 24" >
       <polygon points="14.43,10 12,2 9.57,10 2,10 8.18,14.41 5.83,22 12,17.31 18.18,22 15.83,14.41 22,10"/>
     </svg>
@@ -646,29 +677,29 @@
     </div>
 </div>
 
-  <div class="tool_button" id="tool_path" data-mode="path" title="Path Tool [P]">
+  <div class="tool_button" id="tool_path" data-mode="path" title="路径工具 [P]">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 27" width="27" height="27">
       <path d="M12.2 1.9c0-.36.86 0 .86 0V14a1.3 1.3 0 10.88 0V1.9s.87-.36.87 0c0 6.81 5.22 11.68 5.22 11.68l-3.25 8.2h-6.55l-3.26-8.2s5.22-4.87 5.22-11.68zM7.83 25.26v-2.61h11.32v2.6H7.84z"/>
     </svg>
   </div>
-  <div class="tool_button" id="tool_text" data-mode="text" title="Text Tool [T]">
+  <div class="tool_button" id="tool_text" data-mode="text" title="文本工具 [T]">
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="2 2 20 20" width="27" height="27"><path d="M5 4v3h5.5v12h3V7H19V4z"/></svg>
   </div>
 
-  <div class="tool_button" id="tool_zoom" data-mode="zoom" title="Zoom Tool [Z]">
+  <div class="tool_button" id="tool_zoom" data-mode="zoom" title="缩放工具 [Z]">
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="2 2 20 20" width="27"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
   </div>
 
-  <div class="tool_button" id="tool_eyedropper" data-mode="eyedropper" title="Eyedropper Tool [E]">
+  <div class="tool_button" id="tool_eyedropper" data-mode="eyedropper" title="取色工具 [E]">
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="2 2 20 20" width="27" style="transform: scale(-1, 1)"><path d="M20.71 5.63l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-3.12 3.12-1.93-1.91-1.41 1.41 1.42 1.42L3 16.25V21h4.75l8.92-8.92 1.42 1.42 1.41-1.41-1.92-1.92 3.12-3.12c.4-.4.4-1.03.01-1.42zM6.92 19L5 17.08l8.06-8.06 1.92 1.92L6.92 19z"/></svg>
   </div>
   
   <div id="color_tools">
-        <div id="tool_switch" title="Switch stroke and fill colors [X]">
+        <div id="tool_switch" title="切换画笔和填充颜色 [X]">
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'><path d='M3.01 2A6 6 0 019 8h1.83l-2.91 2.91L5 8h2a4 4 0 00-3.99-4v1.93L.1 3.02 3.01.1V2z' /></svg>
         </div>
         <div class="color_tool active" id="tool_fill">
-          <label class="icon_label" title="Change fill color"></label>
+          <label class="icon_label" title="改变填充颜色"></label>
           <div class="color_block">
             <div id="fill_bg"></div>
             <div id="fill_color" class="color_block"></div>
@@ -676,10 +707,10 @@
         </div>
 
         <div class="color_tool" id="tool_stroke">
-            <label class="icon_label" title="Change stroke color"></label>
+            <label class="icon_label" title="改变画笔颜色"></label>
           <div class="color_block">
             <div id="stroke_bg"></div>
-            <div id="stroke_color" class="color_block" title="Change stroke color"></div>
+            <div id="stroke_color" class="color_block" title="改变画笔颜色"></div>
           </div>
         </div>
   </div>
@@ -713,7 +744,7 @@
     </div>
   </div>
   
-  <div id="palette" title="Click to change fill color, shift-click to change stroke color"></div>
+  <div id="palette" title="点击改变填充颜色，Shift + 点击改变笔画颜色"></div>
 </div>
 
 <!-- hidden divs -->
@@ -730,16 +761,16 @@
 </div>
 
 <ul id="cmenu_canvas" class="contextMenu">
-  <li><a href="#cut">Cut <span class="shortcut">⌘X;</span></a></li>
-  <li><a href="#copy">Copy<span class="shortcut">⌘C</span></a></li>
-  <li><a href="#paste">Paste<span class="shortcut">⌘V</span></a></li>
-  <li class="separator"><a href="#delete">Delete<span class="shortcut">⌫</span></a></li>
-  <li class="separator"><a href="#group">Group<span class="shortcut">⌘G</span></a></li>
-  <li><a href="#ungroup">Ungroup<span class="shortcut">⌘⇧G</span></a></li>
-  <li class="separator"><a href="#move_front">Bring to Front<span class="shortcut">⌘⇧↑</span></a></li>
-  <li><a href="#move_up">Bring Forward<span class="shortcut">⌘↑</span></a></li>
-  <li><a href="#move_down">Send Backward<span class="shortcut">⌘↓</span></a></li>
-  <li><a href="#move_back">Send to Back<span class="shortcut">⌘⇧↓</span></a></li>
+  <li><a href="#cut">剪切 <span class="shortcut">⌘X;</span></a></li>
+  <li><a href="#copy">复制<span class="shortcut">⌘C</span></a></li>
+  <li><a href="#paste">粘贴<span class="shortcut">⌘V</span></a></li>
+  <li class="separator"><a href="#delete">删除<span class="shortcut">⌫</span></a></li>
+  <li class="separator"><a href="#group">组合<span class="shortcut">⌘G</span></a></li>
+  <li><a href="#ungroup">取消组合<span class="shortcut">⌘⇧G</span></a></li>
+  <li class="separator"><a href="#move_front">置于顶层<span class="shortcut">⌘⇧↑</span></a></li>
+  <li><a href="#move_up">上移一层<span class="shortcut">⌘↑</span></a></li>
+  <li><a href="#move_down">下移一层<span class="shortcut">⌘↓</span></a></li>
+  <li><a href="#move_back">置于底层<span class="shortcut">⌘⇧↓</span></a></li>
 </ul>
 
 <div class="tools_flyout inverted-undo" id="tools_shapelib">

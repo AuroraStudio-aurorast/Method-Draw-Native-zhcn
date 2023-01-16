@@ -13,16 +13,16 @@ const dao = [
 
   {
     name: "canvasTitle",
-    label: "Canvas Title",
+    label: "画布标题",
     type: "string",
-    default: "Drawing",
+    default: "画图",
     private: false,
     save: true
   },
 
   {
     name: "canvasSize",
-    label: "Canvas Size",
+    label: "画布大小",
     type: "array",
     default: [800, 600],
     private: false,
@@ -31,7 +31,7 @@ const dao = [
 
   {
     name: "canvasSnap",
-    label: "Snap to Grid",
+    label: "抓取到网格",
     type: "boolean",
     default: false,
     private: false,
@@ -40,7 +40,7 @@ const dao = [
 
   {
     name: "canvasSnapStep",
-    label: "Snap Step",
+    label: "捕捉步骤",
     type: "number",
     default: 10,
     private: false,
@@ -49,7 +49,7 @@ const dao = [
 
   {
     name: "canvasRulers",
-    label: "Canvas Rulers",
+    label: "画布标尺",
     type: "boolean",
     default: true,
     private: false,
@@ -58,7 +58,7 @@ const dao = [
 
   {
     name: "canvasContent",
-    label: "Canvas Content",
+    label: "画布内容",
     type: "string",
     default: "<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'></svg>",
     private: true,
@@ -67,7 +67,7 @@ const dao = [
 
   {
     name: "canvasMode",
-    label: "Canvas Mode",
+    label: "画布模式",
     type: "string",
     default: "select",
     private: true,
@@ -76,7 +76,7 @@ const dao = [
 
   {
     name: "canvasFill",
-    label: "Canvas Fill",
+    label: "画布填充",
     type: "object",
     default: {type: "solidColor", solidColor: 'ffffff', alpha: 100},
     private: true,
@@ -85,7 +85,7 @@ const dao = [
 
   {
     name: "canvasStroke",
-    label: "Canvas Stroke",
+    label: "画布画笔",
     type: "object",
     default: {type: "solidColor", solidColor: '000000', alpha: 100},
     private: true,
@@ -94,7 +94,7 @@ const dao = [
 
   {
     name: "canvasBackground",
-    label: "Canvas Background",
+    label: "画布背景",
     type: "object",
     default: {type: "solidColor", solidColor: 'ffffff', alpha: 100},
     private: true,
@@ -103,7 +103,7 @@ const dao = [
 
   {
     name: "canvasCreationDate",
-    label: "Canvas Creation Date",
+    label: "画布创建日期",
     type: "string",
     default: new Date().toString(),
     private: true,
@@ -112,7 +112,7 @@ const dao = [
   // When this page was created
   {
     name: "canvasLastModified",
-    label: "Canvas Last Modified",
+    label: "画布上一次修改",
     type: "string",
     default: new Date().toString(),
     private: true,
@@ -122,7 +122,7 @@ const dao = [
   // system level fields
   {
     name: "darkmode",
-    label: "Dark Mode",
+    label: "暗黑模式",
     type: "boolean",
     default: true,
     private: true,
@@ -131,7 +131,7 @@ const dao = [
   // future use
   {
     name: "language",
-    label: "Language",
+    label: "语言",
     type: "string",
     default: null,
     private: true,
@@ -140,7 +140,7 @@ const dao = [
   // if it is the first time visitor we can onboard them
   {
     name: "visited",
-    label: "Has visited before",
+    label: "曾访问过",
     type: "boolean",
     default: false,
     private: true,

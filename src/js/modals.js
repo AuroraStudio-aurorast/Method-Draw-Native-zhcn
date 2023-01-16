@@ -6,9 +6,12 @@ const state = new State();
 editor.modal = {
   about: new MD.Modal({
     html: `
-      <h1>About this application</h1>
-      <p>Method Draw is a simple <a href="https://github.com/methodofaction/Method-Draw">open source</a> vector drawing application. Method Draw was forked from <a href="https://github.com/SVG-Edit/svgedit">SVG-Edit</a> several years ago with the goal of improving and modernizing the interface.</p>
-      <p>At this time (2021), the author (<a href="http://method.ac/writing">Mark MacKay</a>) is working on improving stability and improving the codebase, which contains a lot of legacy practices. The goal is to create a vector editor suitable for simple graphic design tasks.</p>
+      <h1>关于该软件</h1>
+      <p>Method Draw 是一个简单的<a href="https://github.com/methodofaction/Method-Draw">开源</a>矢量绘图软件。Method Draw 是几年前的<a href="https://github.com/SVG-Edit/svgedit">SVG-Edit</a>的分支，目的是改进并现代化用户界面。 </p>
+      <p>在这时(2021)，作者(<a href="http://method.ac/writing">Mark MacKay</a>)正在努力提高稳定性和改进代码库，其中包含大量的遗留实践。我们的目标是创建一个适用于简单图形设计任务的矢量编辑器。</p>
+      <hr />
+      <p>使用<a href="http://tauri.app">tauri</a>开发进行二次开发，由AuroraStudio进行本地化开发以及汉化</p>
+      <p>顺便解决了一些原版的文本表意问题~</p>
       `
   }),
   source: new MD.Modal({
@@ -20,8 +23,8 @@ editor.modal = {
             <textarea id="svg_source_textarea" spellcheck="false"></textarea>
           </form>
           <div id="tool_source_back" class="toolbar_button">
-            <button id="tool_source_cancel" class="cancel">Cancel</button>
-            <button id="tool_source_save" class="ok">Apply Changes</button>
+            <button id="tool_source_cancel" class="cancel">取消</button>
+            <button id="tool_source_save" class="ok">应用修改</button>
           </div>
         </div>
     </div>`,
@@ -39,7 +42,7 @@ editor.modal = {
         }
 
         if (!svgCanvas.setSvgString($('#svg_source_textarea').val())) {
-          $.confirm("There were parsing errors in your SVG source.\nRevert back to original SVG source?", function(ok) {
+          $.confirm("在你的SVG源中存在解析错误。\n重新回到原始SVG源？", function(ok) {
             if(!ok) return false;
             saveChanges();
           });
@@ -54,9 +57,9 @@ editor.modal = {
   }),
   configure: new MD.Modal({
     html: `
-      <h1>Configuration</h1>
+      <h1>配置</h1>
       <div id="configuration">
-        <button class="warning">Erase all data</button>
+        <button class="warning">清除所有数据</button>
         </div>
       </div>`,
     js: function(el){
@@ -76,7 +79,7 @@ editor.modal = {
   }),
   shortcuts: new MD.Modal({
     html: `
-      <h1>Shortcuts</h1>
+      <h1>快捷键</h1>
       <div id="shortcuts"></div>`,
     js: function(el){
       el.children[0].classList.add("modal-item-wide");
