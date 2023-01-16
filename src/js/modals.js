@@ -7,6 +7,7 @@ editor.modal = {
   about: new MD.Modal({
     html: `
       <h1>关于该软件</h1>
+      <h3>Version 1.0.1</h3>
       <p>Method Draw 是一个简单的<a href="https://github.com/methodofaction/Method-Draw">开源</a>矢量绘图软件。Method Draw 是几年前的<a href="https://github.com/SVG-Edit/svgedit">SVG-Edit</a>的分支，目的是改进并现代化用户界面。 </p>
       <p>在这时(2021)，作者(<a href="http://method.ac/writing">Mark MacKay</a>)正在努力提高稳定性和改进代码库，其中包含大量的遗留实践。我们的目标是创建一个适用于简单图形设计任务的矢量编辑器。</p>
       <hr />
