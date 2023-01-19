@@ -8,28 +8,34 @@
     top: 0;
     left: 0;
     right: 0;
-  }
-  .titlebar-btnFix {
+}
+.titlebar-btnFix {
     display: flex;
     justify-content: flex-end;
-  }
-  .titlebar-button {
+}
+.titlebar-button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     width: 46px;
     height: 31px;
-  }
-  .titlebar-button:hover {
+}
+.titlebar-button:hover {
+    background: #ffffff25;
+}
+.inverted .titlebar-button:hover {
     background: #00000025;
-  }
-  .titlebar-button-close {
+}
+.titlebar-button-close {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     width: 46px;
     height: 31px;
-  }
-  .titlebar-button-close:hover {
+}
+.titlebar-button-close:hover {
     background: #e81123;
-  }
+}
+.titlebar-button-close:hover > * {
+    fill: #ffffff !important;
+}
