@@ -12,6 +12,10 @@ fn main() {
             if cfg!(target_os = "windows") {
                 window_shadows::set_shadow(&main_window, true).expect("Unsupported platform!");
             }
+            #[cfg(debug_assertions)]
+            {
+                main_window.open_devtools();
+            }
             Ok(())
         })
         .run(tauri::generate_context!())
